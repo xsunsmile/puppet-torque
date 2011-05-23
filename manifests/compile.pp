@@ -70,10 +70,10 @@ class torque::compile {
 
 	file { '/etc/profile.d/torque.sh':
 		ensure => present,
-		content => 'export PATH=$PATH:${install_dist}/bin:/opt/torque/sbin\nexport LD_LIBRARY_PATH=${install_dist}/lib',
 		owner => root,
 		group => root,
 		mode => 0755,
+		content => template('torque/profiled.conf.erb'),
 		require => Exec['install-torque'],
 	}
 
@@ -95,8 +95,7 @@ class torque::compile {
 	exec { 'init':
 		path => "/opt/torque/bin:/opt/torque/sbin:/bin:/usr/bin",
 		command => "torque.setup ${torque_admin}",
-		require => File['/etc/profile.d/torque.sh'],
-		require => Exec['ldconfig_torque'],
+		require => [File['/etc/profile.d/torque.sh'], Exec['ldconfig_torque']],
 		unless => 'ps aux | grep pbs_server',
 	}
 
