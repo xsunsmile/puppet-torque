@@ -2,13 +2,14 @@ class torque::compile {
 	
 	package { "build-essential": ensure => installed }
 
+	$install_dist = '/opt/torque'
 	$torque_admin = $user_torque_admin ? {
 		'' => 'root',
 		default => $user_torque_admin,
 	}
 
 	$compile_args = $user_compile_args ? {
-		'' => "--prefix=/opt/torque --enable-drmaa ${user_compile_args}",
+		'' => "--prefix=${install_dist} --enable-drmaa ${user_compile_args}",
 		default => $user_compile_args,
 	}
 
@@ -55,7 +56,7 @@ class torque::compile {
 					command => "make",
 					require => Exec['configure-torque'],
 					timeout => 0,
-					unless => "ls /opt/torque",
+					unless => "ls ${install_dist}",
 	}
 
 	exec { "install-torque":
@@ -64,28 +65,44 @@ class torque::compile {
 					command => "make install",
 					require => Exec['build-torque'],
 					timeout => 0,
-					unless => "ls /opt/torque",
+					unless => "ls ${install_dist}",
 	}
 
 	file { '/etc/profile.d/torque.sh':
 		ensure => present,
-		content => 'export PATH=$PATH:/opt/torque/bin:/opt/torque/sbin',
+		content => 'export PATH=$PATH:${install_dist}/bin:/opt/torque/sbin\nexport LD_LIBRARY_PATH=${install_dist}/lib',
 		owner => root,
 		group => root,
 		mode => 0755,
 		require => Exec['install-torque'],
 	}
 
+	file { '/etc/ld.so.conf.d/torque.conf':
+		ensure => present,
+		content => "/opt/torque/lib",
+		owner => root,
+		group => root,
+		mode => 0744,
+		require => Exec['install-torque']
+	}
+
+	exec { 'ldconfig_torque':
+		path => '/usr/sbin:/usr/bin:/sbin',
+		command => 'ldconfig',
+		require => File['/etc/ld.so.conf.d/torque.conf'],
+	}
+
 	exec { 'init':
 		path => "/opt/torque/bin:/opt/torque/sbin:/bin:/usr/bin",
 		command => "torque.setup ${torque_admin}",
 		require => File['/etc/profile.d/torque.sh'],
+		require => Exec['ldconfig_torque'],
 		unless => 'ps aux | grep pbs_server',
 	}
 
 	exec { 'stop_server':
 		path => "/opt/torque/bin:/opt/torque/sbin",
-		command => "qterm -t quick",
+		command => "qterm -t quick || echo''",
 		require => Exec['init'],
 	}
 
