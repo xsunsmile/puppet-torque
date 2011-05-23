@@ -43,29 +43,29 @@ class torque::compile {
 	}
 
 	exec { "configure-torque":
-					path => "/bin:/usr/bin:/usr/sbin",
-					cwd => "/tmp/torque/torque",
-					command => "sh configure ${compile_args}",
-					require => File['/tmp/torque/torque'],
-					unless => "ls /opt/torque",
+		path => "/bin:/usr/bin:/usr/sbin",
+		cwd => "/tmp/torque/torque",
+		command => "sh configure ${compile_args}",
+		require => File['/tmp/torque/torque'],
+		unless => "ls ${install_dist}",
 	}
 
 	exec { "build-torque":
-					path => "/bin:/usr/bin:/usr/sbin",
-					cwd => "/tmp/torque/torque",
-					command => "make",
-					require => Exec['configure-torque'],
-					timeout => 0,
-					unless => "ls ${install_dist}",
+		path => "/bin:/usr/bin:/usr/sbin",
+		cwd => "/tmp/torque/torque",
+		command => "make",
+		require => Exec['configure-torque'],
+		timeout => 0,
+		unless => "ls ${install_dist}",
 	}
 
 	exec { "install-torque":
-					path => "/bin:/usr/bin:/usr/sbin",
-					cwd => "/tmp/torque/torque",
-					command => "make install",
-					require => Exec['build-torque'],
-					timeout => 0,
-					unless => "ls ${install_dist}",
+		path => "/bin:/usr/bin:/usr/sbin",
+		cwd => "/tmp/torque/torque",
+		command => "make install",
+		require => Exec['build-torque'],
+		timeout => 0,
+		unless => "ls ${install_dist}",
 	}
 
 	file { '/etc/profile.d/torque.sh':
