@@ -6,6 +6,7 @@ class torque::install {
 		mode => 0755,
 		owner => root,
 		group => root,
+		require => Exec['install-torque'],
 	}
 
 }
