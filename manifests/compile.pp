@@ -93,10 +93,11 @@ class torque::compile {
 	}
 
 	exec { 'init':
+		cwd => "/tmp/torque/torque",
 		path => "/opt/torque/bin:/opt/torque/sbin:/bin:/usr/bin",
 		command => "torque.setup ${torque_admin}",
 		require => [File['/etc/profile.d/torque.sh'], Exec['ldconfig_torque']],
-		unless => 'ps aux | grep pbs_server',
+		unless => 'ls /var/spool/torque/server_priv/serverdb',
 	}
 
 	exec { 'stop_server':
