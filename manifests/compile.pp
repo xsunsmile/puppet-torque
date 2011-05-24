@@ -92,7 +92,7 @@ class torque::compile {
 		require => File['/etc/ld.so.conf.d/torque.conf'],
 	}
 
-	exec { 'init':
+	exec { 'init_torque':
 		path => "/opt/torque/bin:/opt/torque/sbin:/bin:/usr/bin",
 		command => "torque.setup ${torque_admin}",
 		require => [File['/etc/profile.d/torque.sh'], Exec['ldconfig_torque']],
@@ -102,7 +102,7 @@ class torque::compile {
 	exec { 'stop_server':
 		path => "/opt/torque/bin:/opt/torque/sbin",
 		command => "qterm -t quick || echo''",
-		require => Exec['init'],
+		require => Exec['init_torque'],
 	}
 
 	exec { 'start_server':
