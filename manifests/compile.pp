@@ -94,7 +94,7 @@ class torque::compile {
 
 	exec { 'init_torque':
 		cwd => "/tmp/torque/torque",
-		path => "/opt/torque/bin:/opt/torque/sbin:/bin:/usr/bin",
+		path => "/tmp/torque/torque:/opt/torque/bin:/opt/torque/sbin:/bin:/usr/bin",
 		command => "torque.setup ${torque_admin}",
 		require => [File['/etc/profile.d/torque.sh'], Exec['ldconfig_torque']],
 		unless => 'ls /var/spool/torque/server_priv/serverdb',
