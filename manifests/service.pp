@@ -23,8 +23,8 @@ class torque::service::server {
 
 	replace { 'ensure_torque_server_path':
 		file => '/etc/init.d/pbs_server',
-		pattern => "^DAEMON",
-		replacement => "DAEMON=${torque::params::install_dist}/sbin/\$NAME",
+		pattern => "^DAEMON.*/sbin",
+		replacement => "DAEMON=${torque::params::install_dist}/sbin",
 	}
 
 	service { 'pbs_server':
