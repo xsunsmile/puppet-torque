@@ -9,7 +9,7 @@ class torque::service_server {
 		require => Exec['install_initd_server'],
 	}
 
-	file { "${spool_dir}/server_priv/nodes":
+	file { "${torque::params::spool_dir}/server_priv/nodes":
 		ensure => present,
 		require => Exec['init_torque'],
 	}
@@ -21,7 +21,6 @@ class torque::service_server {
 	}
 
 	cron { 'add_new_hosts':
-		path => '/usr/bin:/bin:/usr/sbin',
 		command => '/usr/bin/mongo_host sync_to_torque',
 		minute => 5,
 	}
@@ -30,7 +29,7 @@ class torque::service_server {
 		name => 'pbs_server',
 		ensure => running,
 		require => [ Replace['ensure_torque_server_path'], Exec['stop_server'] ],
-		subscribe => File["${spool_dir}/server_priv/nodes"],
+		subscribe => File["${torque::params::spool_dir}/server_priv/nodes"],
 	}
 
 }
