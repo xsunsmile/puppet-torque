@@ -68,7 +68,7 @@ class torque::install {
 		command => "cp ${torque::params::torque_initd}/debian.pbs_sched /etc/init.d/pbs_sched",
 	}
 
-	exec { 'install_initd_mon':
+	exec { 'install_initd_mom':
 		path => "/usr/bin:/bin",
 		command => "cp ${torque::params::torque_initd}/debian.pbs_mom /etc/init.d/pbs_mom",
 	}

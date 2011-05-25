@@ -5,7 +5,7 @@ class torque::service_mom {
 		owner => root,
 		group => root,
 		mode => 755,
-		require => Exec['install_initd_sched'],
+		require => Exec['install_initd_mom'],
 	}
 
 	replace { 'ensure_torque_mom_path':

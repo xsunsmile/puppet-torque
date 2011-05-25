@@ -3,6 +3,11 @@ class torque::params {
 
 	$install_dist = extlookup('torque_install_dist')
 	$install_src = extlookup('torque_install_src')
+	$spool_dir = extlookup('torque_spool_dir') ? {
+		'' => "/var/spool/torque",
+		default => extlookup('torque_spool_dir')
+	}
+
 	$torque_admin = extlookup('torque_admin')
 	$compile_args_extra = extlookup('torque_complie_args_extra')
 	$torque_master = extlookup('torque_master_name')
