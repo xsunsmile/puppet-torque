@@ -8,6 +8,7 @@ class torque::service {
 		include torque::service::sched
 	}
 	include torque::service::mom
+
 }
 
 class torque::service::server {
@@ -20,9 +21,14 @@ class torque::service::server {
 		require => Exec['install_initd_server'],
 	}
 
+	line { 'ensure_torque_server_path':
+		file => '/etc/init.d/pbs_server',
+		line => "DAEMON=${torque::params::install_dir}/sbin/$NAME",
+	}
+
 	service { 'pbs_server':
 		ensure => running,
-		require => Exec['stop_server'],
+		require => Line['ensure_torque_server_path'],
 	}
 
 }
@@ -37,8 +43,15 @@ class torque::service::sched {
 		require => Exec['install_initd_sched'],
 	}
 
+	line { 'ensure_torque_sched_path':
+		file => '/etc/init.d/pbs_sched',
+		line => "DAEMON=${torque::params::install_dir}/sbin/$NAME",
+		require => File['/etc/init.d/pbs_sched'],
+	}
+
 	service { 'pbs_sched':
 		ensure => running,
+		require => [ Service['pbs_server'], Line['ensure_torque_sched_path'] ]
 	}
 
 }
@@ -53,8 +66,15 @@ class torque::service::mom {
 		require => Exec['install_initd_sched'],
 	}
 
+	line { 'ensure_torque_mom_path':
+		file => '/etc/init.d/pbs_mom',
+		line => "DAEMON=${torque::params::install_dir}/sbin/$NAME",
+		require => File['/etc/init.d/pbs_mom'],
+	}
+
 	service { 'pbs_mom':
 		ensure => running,
+		require => Line['ensure_torque_mom_path'],
 	}
 
 }
