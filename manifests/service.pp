@@ -21,14 +21,15 @@ class torque::service::server {
 		require => Exec['install_initd_server'],
 	}
 
-	line { 'ensure_torque_server_path':
+	replace { 'ensure_torque_server_path':
 		file => '/etc/init.d/pbs_server',
-		line => "DAEMON=${torque::params::install_dist}/sbin/\$NAME",
+		pattern => "^DAEMON",
+		replacement => "DAEMON=${torque::params::install_dist}/sbin/\$NAME",
 	}
 
 	service { 'pbs_server':
 		ensure => running,
-		require => Line['ensure_torque_server_path'],
+		require => Replace['ensure_torque_server_path'],
 	}
 
 }
