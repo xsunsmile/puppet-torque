@@ -18,8 +18,7 @@ class torque::service_server {
 	service { 'start_pbs_server':
 		name => 'pbs_server',
 		ensure => running,
-		require => Replace['ensure_torque_server_path'],
-		unless => 'ps aux | grep pbs_server',
+		require => [ Replace['ensure_torque_server_path'], Exec['stop_server'] ]
 	}
 
 }
