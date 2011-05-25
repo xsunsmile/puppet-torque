@@ -17,7 +17,7 @@ class torque::service_sched {
 
 	service { 'pbs_sched':
 		ensure => running,
-		require => [ Service['pbs_server'], Line['ensure_torque_sched_path'] ]
+		require => [ Service['pbs_server'], Replace['ensure_torque_sched_path'] ]
 	}
 
 }

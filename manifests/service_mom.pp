@@ -17,7 +17,7 @@ class torque::service_mom {
 
 	service { 'pbs_mom':
 		ensure => running,
-		require => Line['ensure_torque_mom_path'],
+		require => Replace['ensure_torque_mom_path'],
 	}
 
 }
