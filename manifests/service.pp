@@ -20,7 +20,7 @@ class torque::service::server {
 		require => Exec['install_initd_server'],
 	}
 
-	service { 'torque_server':
+	service { 'pbs_server':
 		ensure => running,
 		require => Exec['stop_server'],
 	}
@@ -37,7 +37,7 @@ class torque::service::sched {
 		require => Exec['install_initd_sched'],
 	}
 
-	service { 'torque_sched':
+	service { 'pbs_sched':
 		ensure => running,
 	}
 
@@ -53,7 +53,7 @@ class torque::service::mom {
 		require => Exec['install_initd_sched'],
 	}
 
-	service { 'torque_mom':
+	service { 'pbs_mom':
 		ensure => running,
 	}
 
