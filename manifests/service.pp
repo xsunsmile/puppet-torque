@@ -1,20 +1,58 @@
 
 class torque::service {
-
-	file { '/etc/init.d/torque_server':
-
+	if $hostname == $torque::params::torque_master
+		include torque::service::server
+		include torque::service::sched
 	}
+	include torque::service::mom
+}
 
-	file { '/etc/init.d/torque_sched':
+class torque::service::server {
 
-	}
-
-	file { '/etc/init.d/torque_mon':
-
+	file { '/etc/init.d/pbs_server':
+		ensure => present,
+		owner => root,
+		group => root,
+		mode => 755,
+		require => Exec['install_initd_server'],
 	}
 
 	service { 'torque_server':
-
+		ensure => running,
+		require => Exec['stop_server'],
 	}
 
 }
+
+class torque::service::sched {
+
+	file { '/etc/init.d/pbs_sched':
+		ensure => present,
+		owner => root,
+		group => root,
+		mode => 755,
+		require => Exec['install_initd_sched'],
+	}
+
+	service { 'torque_sched':
+		ensure => running,
+	}
+
+}
+
+class torque::service::mom {
+
+	file { '/etc/init.d/pbs_mom':
+		ensure => present,
+		owner => root,
+		group => root,
+		mode => 755,
+		require => Exec['install_initd_sched'],
+	}
+
+	service { 'torque_mom':
+		ensure => running,
+	}
+
+}
+
