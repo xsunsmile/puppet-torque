@@ -8,7 +8,7 @@ class torque::service_mom {
 		require => Exec['install_initd_mom'],
 	}
 
-	file { "${torque::params::install_dist}/mom_priv/config":
+	file { "${torque::params::spool_dir}/mom_priv/config":
 		ensure => present,
 		owner => root,
 		group => root,
