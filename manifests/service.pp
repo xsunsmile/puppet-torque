@@ -3,7 +3,7 @@ class torque::service {
 
 	include torque::params
 
-	if $hostname == $torque::params::torque_master
+	if $hostname == $torque::params::torque_master {
 		include torque::service::server
 		include torque::service::sched
 	}
