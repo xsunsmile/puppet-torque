@@ -1,2 +1,2 @@
-export PATH=$PATH:<%= install_dist %>/bin:/opt/torque/sbin
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:<%= install_dist %>/lib
+export PATH=$PATH:<%= torque::params::install_dist %>/bin:/opt/torque/sbin
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:<%= torque::params::install_dist %>/lib
