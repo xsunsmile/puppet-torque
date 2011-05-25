@@ -1,6 +1,7 @@
 
 
 class torque {
+	include torque::params
 	include torque::compile
 	include torque::install
 	include torque::service

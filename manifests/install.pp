@@ -1,6 +1,8 @@
 
 class torque::install {
 
+	include torque::params
+
 	exec { "install-torque":
 		path => "/bin:/usr/bin:/usr/sbin",
 		cwd => "/tmp/torque/torque",

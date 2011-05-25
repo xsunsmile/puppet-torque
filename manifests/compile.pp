@@ -1,4 +1,6 @@
 class torque::compile {
+
+	include torque::params
 	
 	package { "build-essential": ensure => installed }
 
