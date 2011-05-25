@@ -23,7 +23,7 @@ class torque::service::server {
 
 	line { 'ensure_torque_server_path':
 		file => '/etc/init.d/pbs_server',
-		line => "DAEMON=${torque::params::install_dir}/sbin/$NAME",
+		line => "DAEMON=${torque::params::install_dist}/sbin/\$NAME",
 	}
 
 	service { 'pbs_server':
@@ -45,7 +45,7 @@ class torque::service::sched {
 
 	line { 'ensure_torque_sched_path':
 		file => '/etc/init.d/pbs_sched',
-		line => "DAEMON=${torque::params::install_dir}/sbin/$NAME",
+		line => "DAEMON=${torque::params::install_dist}/sbin/$NAME",
 		require => File['/etc/init.d/pbs_sched'],
 	}
 
@@ -68,7 +68,7 @@ class torque::service::mom {
 
 	line { 'ensure_torque_mom_path':
 		file => '/etc/init.d/pbs_mom',
-		line => "DAEMON=${torque::params::install_dir}/sbin/$NAME",
+		line => "DAEMON=${torque::params::install_dist}/sbin/$NAME",
 		require => File['/etc/init.d/pbs_mom'],
 	}
 
