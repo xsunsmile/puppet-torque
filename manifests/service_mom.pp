@@ -8,6 +8,14 @@ class torque::service_mom {
 		require => Exec['install_initd_mom'],
 	}
 
+	file { "${torque::params::install_dist}/mom_priv/config":
+		ensure => present,
+		owner => root,
+		group => root,
+		mode => 744,
+		content => template('torque/mom_config.erb'),
+	}
+
 	replace { 'ensure_torque_mom_path':
 		file => '/etc/init.d/pbs_mom',
 		pattern => "^DAEMON.*$",
