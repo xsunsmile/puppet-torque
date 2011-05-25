@@ -21,8 +21,10 @@ class torque::service_server {
 	}
 
 	cron { 'add_new_hosts':
+		ensure => present,
+		user => root,
 		command => '/usr/bin/mongo_host sync_to_torque',
-		minute => 5,
+		minute => "*/5",
 	}
 
 	service { 'start_pbs_server':
