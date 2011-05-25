@@ -2,7 +2,7 @@
 class torque::service {
 
 	include torque::params
-
+	notify {"master is ${torque::params::torque_master}, this ${hostname}":}
 	if $hostname == $torque::params::torque_master {
 		include torque::service::server
 		include torque::service::sched
