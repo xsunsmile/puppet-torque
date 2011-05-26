@@ -8,13 +8,6 @@ class torque::service_sched {
 		require => Exec['install_initd_sched'],
 	}
 
-	replace { 'ensure_torque_sched_path':
-		file => '/etc/init.d/pbs_sched',
-		pattern => "^DAEMON.*$",
-		replacement => "DAEMON=${torque::params::install_dist}/sbin/pbs_sched",
-		require => File['/etc/init.d/pbs_sched'],
-	}
-
 	service { 'pbs_sched':
 		ensure => running,
 		require => [ Service['pbs_server'], Replace['ensure_torque_sched_path'] ]

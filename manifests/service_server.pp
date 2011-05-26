@@ -14,12 +14,6 @@ class torque::service_server {
 		require => Exec['init_torque'],
 	}
 
-	replace { 'ensure_torque_server_path':
-		file => '/etc/init.d/pbs_server',
-		pattern => "^DAEMON.*$",
-		replacement => "DAEMON=${torque::params::install_dist}/sbin/pbs_server",
-	}
-
 	cron { 'add_new_hosts':
 		ensure => present,
 		user => root,

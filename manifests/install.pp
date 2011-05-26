@@ -62,18 +62,41 @@ class torque::install {
 		path => "/usr/bin:/bin",
 		command => "cp ${torque::params::torque_initd}/debian.pbs_server /etc/init.d/pbs_server",
 		require => Exec['install-torque'],
+		before => Replace['ensure_torque_server_path'],
 	}
 
 	exec { 'install_initd_sched':
 		path => "/usr/bin:/bin",
 		command => "cp ${torque::params::torque_initd}/debian.pbs_sched /etc/init.d/pbs_sched",
 		require => Exec['install-torque'],
+		before => Replace['ensure_torque_sched_path'],
 	}
 
 	exec { 'install_initd_mom':
 		path => "/usr/bin:/bin",
 		command => "cp ${torque::params::torque_initd}/debian.pbs_mom /etc/init.d/pbs_mom",
 		require => Exec['install-torque'],
+		before => Replace['ensure_torque_mom_path'],
+	}
+
+	replace { 'ensure_torque_mom_path':
+		file => '/etc/init.d/pbs_mom',
+		pattern => "^DAEMON.*$",
+		replacement => "DAEMON=${torque::params::install_dist}/sbin/pbs_mom",
+		require => File['/etc/init.d/pbs_mom'],
+	}
+
+	replace { 'ensure_torque_sched_path':
+		file => '/etc/init.d/pbs_sched',
+		pattern => "^DAEMON.*$",
+		replacement => "DAEMON=${torque::params::install_dist}/sbin/pbs_sched",
+		require => File['/etc/init.d/pbs_sched'],
+	}
+
+	replace { 'ensure_torque_server_path':
+		file => '/etc/init.d/pbs_server',
+		pattern => "^DAEMON.*$",
+		replacement => "DAEMON=${torque::params::install_dist}/sbin/pbs_server",
 	}
 
 }
