@@ -37,7 +37,7 @@ class torque::compile {
 		path => "/bin:/usr/bin:/usr/sbin",
 		cwd => "/tmp/torque/torque",
 		command => "sh configure ${torque::params::compile_args}",
-		require => [ File['/tmp/torque/torque'], Package['build-essential'] ]
+		require => [ File['/tmp/torque/torque'], Package['build-essential'] ],
 		unless => "ls ${torque::params::install_dist}",
 	}
 
