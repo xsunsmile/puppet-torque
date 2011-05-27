@@ -39,6 +39,8 @@ class torque::install {
 	exec { 'stop_old_server':
 		path => "${torque::params::install_dist}/bin:${torque::params::install_dist}/sbin",
 		command => "qterm -t quick || echo''",
+		require => Exec['install-torque'],
+		onlyif => 'ps aux | grep pbs_server',
 	}
 
 	exec { 'init_torque':
