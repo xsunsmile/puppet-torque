@@ -36,11 +36,20 @@ class torque::install {
 		require => File['/etc/ld.so.conf.d/torque.conf'],
 	}
 
+	exec { 'stop_old_server':
+		path => "${torque::params::install_dist}/bin:${torque::params::install_dist}/sbin",
+		command => "qterm -t quick || echo''",
+	}
+
 	exec { 'init_torque':
 		cwd => "${torque::params::install_src}/torque",
 		path => "${torque::params::install_src}/torque:${torque::params::install_dist}/bin:${torque::params::install_dist}/sbin:/bin:/usr/bin",
 		command => "torque.setup ${torque::params::torque_admin}",
-		require => [File['/etc/profile.d/torque.sh'], Exec['ldconfig_torque']],
+		require => [
+			File['/etc/profile.d/torque.sh'],
+			Exec['ldconfig_torque'],
+			Exec['stop_old_server'],
+		],
 		unless => "ls ${torque::params::spool_dir}/server_priv/serverdb",
 	}
 
