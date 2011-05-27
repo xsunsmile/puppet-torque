@@ -9,3 +9,4 @@ if [ -e torque-$version.tar.gz ]; then
   mv torque-$version torque
 fi
 [ ! -e torque ] && git clone https://github.com/xsunsmile/lrm-torque-clone.git torque
+exit 0
