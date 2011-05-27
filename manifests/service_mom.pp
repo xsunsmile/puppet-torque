@@ -1,12 +1,6 @@
 class torque::service_mom {
 
-	file { '/etc/init.d/pbs_mom':
-		ensure => present,
-		owner => root,
-		group => root,
-		mode => 755,
-		require => Exec['install_initd_mom'],
-	}
+	include torque::install
 
 	file { "${torque::params::spool_dir}/mom_priv/config":
 		ensure => present,

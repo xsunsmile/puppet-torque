@@ -1,12 +1,6 @@
 class torque::service_sched {
 
-	file { '/etc/init.d/pbs_sched':
-		ensure => present,
-		owner => root,
-		group => root,
-		mode => 755,
-		require => Exec['install_initd_sched'],
-	}
+	include torque::install
 
 	service { 'pbs_sched':
 		ensure => running,

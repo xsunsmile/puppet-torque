@@ -1,13 +1,7 @@
 
 class torque::service_server {
-
-	file { '/etc/init.d/pbs_server':
-		ensure => present,
-		owner => root,
-		group => root,
-		mode => 755,
-		require => Exec['install_initd_server'],
-	}
+	
+	include torque::install
 
 	file { "${torque::params::spool_dir}/server_priv/nodes":
 		ensure => present,
@@ -18,7 +12,7 @@ class torque::service_server {
 		ensure => present,
 		user => root,
 		command => '/usr/bin/mongo_host sync_to_torque',
-		minute => "*/5",
+		minute => "*/2",
 	}
 
 	service { 'start_pbs_server':
