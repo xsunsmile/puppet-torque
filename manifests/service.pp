@@ -14,6 +14,7 @@ class torque::service {
 		include torque::service_sched
 	}
 	include torque::service_mom
+	include torque::service_test
 
 }
 
