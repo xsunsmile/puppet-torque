@@ -12,7 +12,7 @@ class torque::service_server {
 		ensure => present,
 		user => root,
 		command => '/usr/bin/mongo_host sync_to_torque',
-		minute => "*/2",
+		minute => "*/1",
 	}
 
 	service { 'start_pbs_server':
