@@ -22,7 +22,7 @@ class torque::service_test {
 		cwd => "/tmp/torque",
 		path => "/usr/bin:/bin",
 		user => "${torque_user_not_root}",
-		command => "${torque::params::install_dist}/bin/qsub test.sh",
+		command => "${torque::params::install_dist}/bin/qsub -l host=${hostname} test.sh",
 		require => [
 			File['/tmp/torque/test.sh'],
 			Exec['restart_pbs_server'],
