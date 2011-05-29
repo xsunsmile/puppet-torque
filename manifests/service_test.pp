@@ -14,7 +14,6 @@ class torque::service_test {
 		path => "/usr/bin:/usr/sbin:/bin:${torque::params::install_dist}/bin:${torque::params::install_dist}/sbin",
 		command => "/etc/init.d/pbs_server restart",
 		require => Service['start_pbs_server'],
-		onlyif => "pbsnodes -a",
 	}
 
 	exec { 'test-qsub':
@@ -26,7 +25,7 @@ class torque::service_test {
 			Exec['restart_pbs_server'],
 		],
 		tries => 3,
-		try_sleep => 60,
+		try_sleep => 1,
 	}
 
 }
