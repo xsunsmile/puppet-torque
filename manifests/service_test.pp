@@ -1,5 +1,7 @@
 
 class torque::service_test {
+	
+	$torque_user_not_root = "ubuntu"
 
 	file { '/tmp/torque/test.sh':
 		ensure => present,
@@ -18,8 +20,9 @@ class torque::service_test {
 
 	exec { 'test-qsub':
 		cwd => "/tmp/torque",
-		path => "${torque::params::install_dist}/bin:${torque::params::install_dist}/sbin",
-		command => "qsub test.sh",
+		path => "/usr/bin:/bin",
+		user => "${torque_user_not_root}",
+		command => "${torque::params::install_dist}/bin/qsub test.sh",
 		require => [
 			File['/tmp/torque/test.sh'],
 			Exec['restart_pbs_server'],

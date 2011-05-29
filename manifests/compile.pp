@@ -50,7 +50,7 @@ class torque::compile {
 		unless => "ls ${torque::params::install_dist}",
 	}
 
-	fpm::funcs::package{ 'torque':
+	fpm::package{ 'torque':
 		source_type => 'dir',
 		package_type => 'deb',
 		package_src => "${torque::params::install_src}/torque",
