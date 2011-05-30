@@ -1,33 +1,31 @@
 class torque::compile {
 
-	include torque::params
-	
 	package { "build-essential": ensure => installed }
 
-	file { "/tmp/torque":
+	file { "${torque::params::install_src}":
 		ensure => directory,
 		owner => root,
 		group => root,
 		mode => 0777,
 	}
 
-	file { "/tmp/torque/fetch.sh":
+	file { "${torque::params::install_src}/fetch.sh":
 		ensure => present,
 		owner => root,
 		group => root,
 		mode => 0755,
 		source => "puppet:///torque/fetch.sh",
-		require => File['/tmp/torque'],
+		require => File["${torque::params::install_src}"],
 	}
 
 	exec { "download":
-		cwd => "/tmp/torque",
+		cwd => "${torque::params::install_src}",
 		command => "/bin/sh fetch.sh",
-		unless => "ls /tmp/torque/torque",
-		require => File['/tmp/torque/fetch.sh'],
+		onlyif => "! test -e ${torque::params::install_src}/torque",
+		require => File["${torque::params::install_src}/fetch.sh"],
 	}
 
-	file { "/tmp/torque/torque":
+	file { "${torque::params::install_src}/torque":
 		ensure => directory,
 		mode => 0777,
 		require => Exec['download'],
@@ -35,18 +33,19 @@ class torque::compile {
 
 	exec { "configure-torque":
 		path => "/bin:/usr/bin:/usr/sbin",
-		cwd => "/tmp/torque/torque",
+		cwd => "${torque::params::install_src}/torque",
 		command => "sh configure ${torque::params::compile_args}",
-		require => [ File['/tmp/torque/torque'], Package['build-essential'] ],
+		require => [ File['${torque::params::install_src}/torque'], Package['build-essential'] ],
+		onlyif => "! test -e ${torque::params::install_src}/config.log",
 	}
 
 	exec { "build-torque":
 		path => "/bin:/usr/bin:/usr/sbin",
-		cwd => "/tmp/torque/torque",
+		cwd => "${torque::params::install_src}/torque",
 		command => "make",
 		require => Exec['configure-torque'],
 		timeout => 0,
-		unless => "ls ${torque::params::spool_dir}"
+		onlyif => "! test -e ${torque::params::spool_dir}"
 	}
 
 	fpm::package{ 'torque':
