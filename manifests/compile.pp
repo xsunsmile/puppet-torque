@@ -35,7 +35,7 @@ class torque::compile {
 		path => "/bin:/usr/bin:/usr/sbin",
 		cwd => "${torque::params::install_src}/torque",
 		command => "sh configure ${torque::params::compile_args}",
-		require => [ File['${torque::params::install_src}/torque'], Package['build-essential'] ],
+		require => [ File["${torque::params::install_src}/torque"], Package['build-essential'] ],
 		onlyif => "! test -e ${torque::params::install_src}/config.log",
 	}
 
