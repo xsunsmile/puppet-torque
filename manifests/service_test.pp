@@ -1,7 +1,7 @@
 
 class torque::service_test {
 	
-	$torque_user_not_root = "ubuntu"
+	$torque_user_not_root = extlookup("torque_user_not_root")
 
 	file { '/tmp/torque/test.sh':
 		ensure => present,
