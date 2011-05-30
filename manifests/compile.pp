@@ -38,7 +38,6 @@ class torque::compile {
 		cwd => "/tmp/torque/torque",
 		command => "sh configure ${torque::params::compile_args}",
 		require => [ File['/tmp/torque/torque'], Package['build-essential'] ],
-		unless => "ls ${torque::params::install_dist}",
 	}
 
 	exec { "build-torque":
@@ -47,7 +46,6 @@ class torque::compile {
 		command => "make",
 		require => Exec['configure-torque'],
 		timeout => 0,
-		unless => "ls ${torque::params::install_dist}",
 	}
 
 	fpm::package{ 'torque':
