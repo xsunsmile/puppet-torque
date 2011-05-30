@@ -1,6 +1,8 @@
 
 class torque::service_test {
 	
+	import torque::service_server
+	
 	$torque_user_not_root = extlookup("torque_user_not_root")
 
 	file { '/tmp/torque/test.sh':
