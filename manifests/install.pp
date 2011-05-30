@@ -6,7 +6,7 @@ class torque::install {
 	exec { "install-torque":
 		path => "/bin:/usr/bin:/usr/sbin",
 		cwd => "${torque::params::install_src}/torque",
-		command => "make install",
+		command => "nice -19 make install",
 		require => Exec['build-torque'],
 		timeout => 0,
 		onlyif => "test ! -e ${torque::params::spool_dir}"

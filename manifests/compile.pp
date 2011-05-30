@@ -34,7 +34,7 @@ class torque::compile {
 	exec { "configure-torque":
 		path => "/bin:/usr/bin:/usr/sbin",
 		cwd => "${torque::params::install_src}/torque",
-		command => "sh configure ${torque::params::compile_args}",
+		command => "nice -19 sh configure ${torque::params::compile_args}",
 		require => [ File["${torque::params::install_src}/torque"], Package['build-essential'] ],
 		onlyif => "test ! -e ${torque::params::install_src}/config.log",
 	}
@@ -42,7 +42,7 @@ class torque::compile {
 	exec { "build-torque":
 		path => "/bin:/usr/bin:/usr/sbin",
 		cwd => "${torque::params::install_src}/torque",
-		command => "make",
+		command => "nice -19 make",
 		require => Exec['configure-torque'],
 		timeout => 0,
 		onlyif => "test ! -e ${torque::params::spool_dir}"

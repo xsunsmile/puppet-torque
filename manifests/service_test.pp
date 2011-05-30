@@ -28,6 +28,7 @@ class torque::service_test {
 		require => [
 			File['/tmp/torque/test.sh'],
 			Exec['restart_pbs_server'],
+			Service['start_pbs_server'],
 		],
 		tries => 3,
 		try_sleep => 1,
