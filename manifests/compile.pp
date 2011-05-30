@@ -21,7 +21,7 @@ class torque::compile {
 	exec { "download":
 		cwd => "${torque::params::install_src}",
 		command => "/bin/sh fetch.sh",
-		onlyif => "! test -e ${torque::params::install_src}/torque",
+		onlyif => "test ! -e ${torque::params::install_src}/torque",
 		require => File["${torque::params::install_src}/fetch.sh"],
 	}
 
@@ -36,7 +36,7 @@ class torque::compile {
 		cwd => "${torque::params::install_src}/torque",
 		command => "sh configure ${torque::params::compile_args}",
 		require => [ File["${torque::params::install_src}/torque"], Package['build-essential'] ],
-		onlyif => "! test -e ${torque::params::install_src}/config.log",
+		onlyif => "test ! -e ${torque::params::install_src}/config.log",
 	}
 
 	exec { "build-torque":
@@ -45,7 +45,7 @@ class torque::compile {
 		command => "make",
 		require => Exec['configure-torque'],
 		timeout => 0,
-		onlyif => "! test -e ${torque::params::spool_dir}"
+		onlyif => "test ! -e ${torque::params::spool_dir}"
 	}
 
 	fpm::package{ 'torque':
