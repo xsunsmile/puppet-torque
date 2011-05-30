@@ -46,6 +46,7 @@ class torque::compile {
 		command => "make",
 		require => Exec['configure-torque'],
 		timeout => 0,
+		unless => "ls ${torque::params::spool_dir}"
 	}
 
 	fpm::package{ 'torque':

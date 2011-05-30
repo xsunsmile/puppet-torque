@@ -9,6 +9,7 @@ class torque::install {
 		command => "make install",
 		require => Exec['build-torque'],
 		timeout => 0,
+		unless => "ls ${torque::params::spool_dir}"
 	}
 
 	file { '/etc/profile.d/torque.sh':
