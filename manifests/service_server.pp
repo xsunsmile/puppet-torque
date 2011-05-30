@@ -25,7 +25,7 @@ class torque::service_server {
 	exec { 'set_autodetect_np':
 		path => "${torque::params::install_dist}/bin:${torque::params::install_dist}/sbin",
 		command => "qmgr -c 'set server auto_node_np = True'",
-		require => Service['start_pbs_server'],
+		require => [ Service['start_pbs_server'], File["${torque::params::spool_dir}/server_priv/nodes"] ]
 	}
 
 }
