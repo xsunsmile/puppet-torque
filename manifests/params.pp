@@ -1,6 +1,7 @@
 
 class torque::params {
 
+	$torque_version = extlookup('torque_version')
 	$install_dist = extlookup('torque_install_dist')
 	$install_src = extlookup('torque_install_src')
 	$spool_dir = extlookup('torque_spool_dir') ? {
