@@ -42,7 +42,7 @@ class torque::pkg_install {
 
 	exec { "setuid_pbs_iff":
 		path => "/bin",
-		command => "chmod u+s ${torque::params::install_dist}/sbin/pbs_iff"
+		command => "chmod u+s ${torque::params::install_dist}/sbin/pbs_iff",
 		require => Exec['install-torque-package'],
 	}
 
