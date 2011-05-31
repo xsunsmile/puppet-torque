@@ -37,6 +37,13 @@ class torque::pkg_install {
 			File["/tmp/torque_doc-${version}_${arch}.deb"],
 			File["/tmp/torque_initd-${version}_${arch}.deb"],
 		],
+		onlyif => "",
+	}
+
+	exec { "setuid_pbs_iff":
+		path => "/bin",
+		command => "chmod u+s ${torque::params::install_dist}/sbin/pbs_iff"
+		require => Exec['install-torque-package'],
 	}
 
 }
