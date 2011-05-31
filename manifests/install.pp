@@ -2,6 +2,7 @@
 class torque::install {
 
 	include torque::params
+	include torque::compile
 
 	exec { "install-torque":
 		path => "/bin:/usr/bin:/usr/sbin",
