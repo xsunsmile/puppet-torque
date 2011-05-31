@@ -12,9 +12,12 @@ class torque::service {
 	if $hostname == $torque::params::torque_master {
 		include torque::service_server
 		include torque::service_sched
+		include torque::service_mom_master
+		include torque::service_test_master
+	} else {
+		include torque::service_mom_node
 		include torque::service_test
 	}
-	include torque::service_mom
 
 }
 

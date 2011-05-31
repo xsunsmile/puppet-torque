@@ -9,18 +9,6 @@ class torque::service_mom {
 		require => Exec['install-torque'],
 	}
 
-	if $hostname == $torque::params::torque_master {
-		include torque::install
-		File["${torque::params::spool_dir}/mom_priv/config"] {
-			require +> File['/etc/init.d/pbs_mom'],
-		}
-	} else {
-		include torque::pkg_install
-		File["${torque::params::spool_dir}/mom_priv/config"] {
-			require +> Exec['install-torque-package'],
-		}
-	}
-
 	service { 'pbs_mom':
 		ensure => running,
 		require => File["${torque::params::spool_dir}/mom_priv/config"],
@@ -28,3 +16,22 @@ class torque::service_mom {
 
 }
 
+class torque::service_mom_master inherits torque::service_mom {
+
+	include torque::install
+
+	File["${torque::params::spool_dir}/mom_priv/config"] {
+		require +> File['/etc/init.d/pbs_mom'],
+	}
+
+}
+
+class torque::service_mom_node inherits torque::service_mom {
+
+	include torque::pkg_install
+
+	File["${torque::params::spool_dir}/mom_priv/config"] {
+		require +> Exec['install-torque-package'],
+	}
+
+}
