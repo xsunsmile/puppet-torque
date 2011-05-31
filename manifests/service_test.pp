@@ -1,9 +1,7 @@
 
 class torque::service_test {
 
-	include torque::compile
 	include torque::service_mom
-
 	$torque_user_not_root = extlookup("torque_user_not_root")
 
 	file { "${torque::params::install_src}/test.sh":
@@ -12,7 +10,7 @@ class torque::service_test {
 		group => root,
 		mode => 0755,
 		content => template("torque/test.sh.erb"),
-		require => File["${torque::params::install_src}"],
+		require => Service['pbs_mom'],
 	}
 
 	exec { 'test-qsub':
