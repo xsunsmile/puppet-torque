@@ -6,7 +6,6 @@ class torque::service_mom {
 		group => root,
 		mode => 744,
 		content => template('torque/mom_config.erb'),
-		require => Exec['install-torque'],
 	}
 
 	service { 'pbs_mom':
@@ -15,3 +14,4 @@ class torque::service_mom {
 	}
 
 }
+
