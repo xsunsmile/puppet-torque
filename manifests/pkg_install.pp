@@ -37,7 +37,7 @@ class torque::pkg_install {
 			File["/tmp/torque_doc-${version}_${arch}.deb"],
 			File["/tmp/torque_initd-${version}_${arch}.deb"],
 		],
-		onlyif => "",
+		onlyif => "test ! -e ${torque::params::install_dist}/sbin/pbs_mom",
 	}
 
 	exec { "setuid_pbs_iff":
