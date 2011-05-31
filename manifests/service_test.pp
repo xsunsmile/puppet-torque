@@ -1,7 +1,7 @@
 
 class torque::service_test {
 
-	import 'torque::service_server'
+	include torque::service_server
 
 	$torque_user_not_root = extlookup("torque_user_not_root")
 	$inner_hostname = $hostname_s ? {
