@@ -19,7 +19,6 @@ class torque::service_test {
 		command => "sudo -u ${torque_user_not_root} ${torque::params::install_dist}/bin/qsub -l host=${hostname} test.sh",
 		require => [
 			File["${torque::params::install_src}/test.sh"],
-			Service['pbs_mom'],
 		],
 		tries => 3,
 		try_sleep => 1,
