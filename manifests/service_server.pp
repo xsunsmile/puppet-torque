@@ -1,7 +1,5 @@
 
 class torque::service_server {
-	
-	include torque::install
 
 	file { "${torque::params::spool_dir}/server_priv/nodes":
 		ensure => present,

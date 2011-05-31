@@ -1,9 +1,13 @@
 
-import "service_server.pp"
-
 class torque::service_test {
 
+	import 'torque::service_server'
+
 	$torque_user_not_root = extlookup("torque_user_not_root")
+	$inner_hostname = $hostname_s ? {
+		'absent' => $hostname,
+		default => $hostname_s,
+	}
 
 	file { '/tmp/torque/test.sh':
 		ensure => present,
@@ -18,13 +22,14 @@ class torque::service_test {
 		path => "/usr/bin:/usr/sbin:/bin:${torque::params::install_dist}/bin:${torque::params::install_dist}/sbin",
 		command => "/etc/init.d/pbs_server restart",
 		require => Service['start_pbs_server'],
+		onlyif => "ls /etc/init.d/pbs_server",
 	}
 
 	exec { 'test-qsub':
 		cwd => "/tmp/torque",
 		path => "/usr/bin:/bin",
 		user => "${torque_user_not_root}",
-		command => "${torque::params::install_dist}/bin/qsub -l host=${hostname} test.sh",
+		command => "${torque::params::install_dist}/bin/qsub -l host=${inner_hostname} test.sh",
 		require => [
 			File['/tmp/torque/test.sh'],
 			Exec['restart_pbs_server'],
@@ -32,6 +37,7 @@ class torque::service_test {
 		],
 		tries => 3,
 		try_sleep => 1,
+		onlyif => "ps aux | grep pbs_server",
 	}
 
 }
