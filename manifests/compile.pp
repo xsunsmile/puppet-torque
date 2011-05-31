@@ -36,7 +36,7 @@ class torque::compile {
 		cwd => "${torque::params::install_src}/torque",
 		command => "nice -19 sh configure ${torque::params::compile_args}",
 		require => [ File["${torque::params::install_src}/torque"], Package['build-essential'] ],
-		onlyif => "test ! -e ${torque::params::install_src}/config.log",
+		onlyif => "test ! -e ${torque::params::install_src}/torque/config.log",
 	}
 
 	exec { "build-torque":
