@@ -48,7 +48,7 @@ class torque::compile {
 		onlyif => "test ! -e ${torque::params::spool_dir}"
 	}
 
-	fpm::package{ 'torque':
+	fpm::torque{ 'torque':
 		source_type => 'dir',
 		package_type => 'deb',
 		package_src => "${torque::params::install_src}/torque",
