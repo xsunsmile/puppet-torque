@@ -3,7 +3,7 @@ class torque::pkg_install {
 
 	$version = $torque::params::torque_version
 	$arch = $architecture ? {
-		'x86_86' => 'amd64',
+		'x86_64' => 'amd64',
 		default => 'i386',
 	}
 
