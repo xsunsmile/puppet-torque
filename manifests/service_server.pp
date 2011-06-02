@@ -26,6 +26,12 @@ class torque::service_server {
 		require => [ Service['start_pbs_server'], File["${torque::params::spool_dir}/server_priv/nodes"] ]
 	}
 
+	exec { 'set_node_submit_ok':
+		path => "${torque::params::install_dist}/bin:${torque::params::install_dist}/sbin",
+		command => "qmgr -c 'set server allow_node_submit = True'",
+		require => [ Service['start_pbs_server'], File["${torque::params::spool_dir}/server_priv/nodes"] ]
+	}
+
 }
 
 
