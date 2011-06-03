@@ -38,8 +38,8 @@ class torque::install {
 	}
 
 	exec { 'stop_old_server':
-		path => "/usr/bin:/bin:${torque::params::install_dist}/bin:${torque::params::install_dist}/sbin",
-		command => "qterm -t quick || echo''",
+		path => "/usr/bin:/bin",
+		command => "pkill pbs_server",
 		require => Exec['install-torque'],
 		onlyif => 'ps aux | grep pbs_server',
 	}
@@ -57,9 +57,10 @@ class torque::install {
 	}
 
 	exec { 'stop_server':
-		path => "${torque::params::install_dist}/bin:${torque::params::install_dist}/sbin",
-		command => "qterm -t quick || echo''",
+		path => "/usr/bin:/bin",
+		command => "pkill pbs_server",
 		require => Exec['init_torque'],
+		onlyif => 'ps aux | grep pbs_server',
 	}
 
 	file { "${torque::params::spool_dir}/checkpoint":
