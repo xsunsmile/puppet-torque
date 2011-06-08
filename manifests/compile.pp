@@ -55,6 +55,7 @@ class torque::compile {
 		package_src => "${torque::params::install_src}/torque",
 		package_version => '2.5.5',
 		build_dirname => '/tmp/build',
+		broker_dir => '/etc/puppet/modules/torque/files',
 		repo => "mongodb://${mongodb_host}:27017/inters_debs/${architecture}/_/tmp/torque*.deb",
 	}
 
