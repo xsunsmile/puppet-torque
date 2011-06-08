@@ -41,7 +41,7 @@ class torque::install {
 		path => "/usr/bin:/bin",
 		command => "pkill pbs_server",
 		require => Exec['install-torque'],
-		onlyif => 'ps aux | grep pbs_server',
+		onlyif => 'ps aux | grep [p]bs_server',
 	}
 
 	exec { 'init_torque':
@@ -60,7 +60,7 @@ class torque::install {
 		path => "/usr/bin:/bin",
 		command => "pkill pbs_server",
 		require => Exec['init_torque'],
-		onlyif => 'ps aux | grep pbs_server',
+		onlyif => 'ps aux | grep [p]bs_server',
 	}
 
 	file { "${torque::params::spool_dir}/checkpoint":
