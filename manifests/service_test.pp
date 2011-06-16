@@ -5,11 +5,11 @@ class torque::service_test {
 	$torque_user_not_root = extlookup("torque_user_not_root")
 
 	if defined(File["${torque::params::install_src}"]) {
-					notify{ "${torque::params::install_src} exists": }
+		notify{ "${torque::params::install_src} exists": }
 	} else {
-					file { "${torque::params::install_src}":
-									ensure => directory,
-					}
+		file { "${torque::params::install_src}":
+			ensure => directory,
+		}
 	}
 
 	file { "${torque::params::install_src}/test.sh":

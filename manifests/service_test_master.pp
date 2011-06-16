@@ -14,7 +14,6 @@ class torque::service_test_master inherits torque::service_test {
 			Service['start_pbs_server'],
 			Exec['restart_pbs_server'],
 		],
-		onlyif => "ps aux | grep pbs_server",
 	}
 
 }
