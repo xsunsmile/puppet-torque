@@ -30,6 +30,7 @@ class torque::service_test {
 		],
 		tries => 3,
 		try_sleep => 1,
+		unless => 'ls ${torque::params::install_src}/test.sh.o*',
 	}
 
 }
