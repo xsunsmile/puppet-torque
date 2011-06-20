@@ -14,6 +14,6 @@ class torque::params {
 	$torque_master = extlookup('torque_master_name')
 
 	$torque_initd = "${install_src}/torque/contrib/init.d"
-	$compile_args = "--prefix=${install_dist} --with-default-server=${torque_master} --enable-drmaa ${compile_args_extra}"
+	$compile_args = "--prefix=${install_dist} --enable-high-availability --with-default-server=${torque_master} --enable-drmaa ${compile_args_extra}"
 
 }
