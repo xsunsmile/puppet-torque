@@ -9,7 +9,7 @@ class torque::service_server {
 	cron { 'add_new_hosts':
 		ensure => present,
 		user => root,
-		command => '/usr/bin/mongo_host sync_to_torque',
+		command => '/usr/bin/mongo_host sync_to_torque || true',
 		minute => "*/1",
 	}
 
