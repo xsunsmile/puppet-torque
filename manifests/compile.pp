@@ -23,6 +23,7 @@ class torque::compile {
 		cwd => "${torque::params::install_src}",
 		command => "/bin/sh fetch.sh",
 		onlyif => "test ! -e ${torque::params::install_src}/torque",
+		timeout => 600,
 		require => File["${torque::params::install_src}/fetch.sh"],
 	}
 
@@ -37,6 +38,7 @@ class torque::compile {
 		cwd => "${torque::params::install_src}/torque",
 		command => "nice -19 sh configure ${torque::params::compile_args}",
 		require => [ File["${torque::params::install_src}/torque"], Package['build-essential'] ],
+		timeout => 600,
 		onlyif => "test ! -e ${torque::params::install_src}/torque/config.log",
 	}
 
@@ -45,7 +47,7 @@ class torque::compile {
 		cwd => "${torque::params::install_src}/torque",
 		command => "nice -19 make",
 		require => Exec['configure-torque'],
-		timeout => 0,
+		timeout => 600,
 		onlyif => "test ! -e ${torque::params::spool_dir}"
 	}
 
@@ -53,8 +55,8 @@ class torque::compile {
 		source_type => 'dir',
 		package_type => 'deb',
 		package_src => "${torque::params::install_src}/torque",
-		package_version => '2.5.5',
-		build_dirname => '/tmp/build',
+		package_version => "${torque::params::torque_version}",
+		build_dirname => '/tmp/build_torque',
 		broker_dir => '/etc/puppet/modules/torque/files',
 		repo => "mongodb://${mongodb_host}:27017/inters_debs/${architecture}/_/tmp/torque*.deb",
 	}
