@@ -1,7 +1,6 @@
 class torque::compile {
 
 	$mongodb_host = extlookup('mongodb_host')
-	package { "build-essential": ensure => installed }
 
 	file { "${torque::params::install_src}":
 		ensure => directory,
